@@ -1,0 +1,10 @@
+[package]
+name = "qt_cef_poc"
+version = "0.1.0"
+authors = ["Chad Retz <chad.retz@gmail.com>"]
+build = "build.rs"
+
+[dependencies]
+qt_core = "0.2.2"
+qt_widgets = "0.2.2"
+cef-sys = { path = "cef-sys" }

@@ -1,0 +1,8 @@
+[package]
+name = "cef-sys"
+version = "0.1.0"
+authors = ["Chad Retz <chad.retz@gmail.com>"]
+build = "build.rs"
+
+[build-dependencies]
+bindgen = "0.26.0"
