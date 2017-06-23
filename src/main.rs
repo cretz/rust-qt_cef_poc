@@ -11,9 +11,16 @@ use qt_core::string::String;
 fn main() {
     Application::create_and_exit(|_app| {
 
+        // CEF init...
+        unsafe {
+            cef_sys::cef_enable_highdpi_support();
+        }
+
         let mut button = PushButton::new(&String::from("Hello, World"));
         button.show();
 
         Application::exec()
     })
 }
+
+
