@@ -3,3 +3,4 @@ target/
 /.idea
 **/*.iml
 /cef-sys/wrapper.h
+/cef-sys/Cargo.lock
