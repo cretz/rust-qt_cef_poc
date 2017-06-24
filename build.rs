@@ -3,6 +3,8 @@ use std::env;
 use std::fs;
 use std::path::{Path, PathBuf};
 
+extern crate embed_resource;
+
 fn main() {
     builder().build();
 }
@@ -21,6 +23,7 @@ impl Builder {
         if cfg!(not(windows)) { panic!("Only windows supported currently") }
         self.copy_qt_libs();
         self.copy_cef_resources();
+        self.embed_windows_manifest();
     }
 
     fn copy_file_to_target<P: AsRef<Path>>(&self, src: P) {
@@ -81,5 +84,10 @@ impl Builder {
         self.copy_file_to_target(cef_dll_dir.join("d3dcompiler_47.dll"));
         self.copy_file_to_target(cef_dll_dir.join("libEGL.dll"));
         self.copy_file_to_target(cef_dll_dir.join("libGLESv2.dll"));
+    }
+
+    fn embed_windows_manifest(&self) {
+        // See: http://magpcss.org/ceforum/viewtopic.php?f=6&t=14721
+        embed_resource::compile("qt_cef_poc.rc");
     }
 }

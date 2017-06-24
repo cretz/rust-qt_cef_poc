@@ -24,11 +24,12 @@ use qt_core::connection::Signal;
 use qt_core::qt::FocusPolicy;
 
 use std::process;
+use std::mem;
 
 fn main() {
     // Setup logger
     env_logger::init().unwrap();
-    debug!("Creating app...");
+    debug!("Starting...");
 
     // Init CEF
     let c = Cef::new();
@@ -43,9 +44,10 @@ fn main() {
 
         // Need a timer for CEF message loop
         let mut timer = Timer::new();
-        timer.signals().timeout().connect(&SlotNoArgs::new(|| {
+        let time_slot = SlotNoArgs::new(|| {
             c.tick();
-        }));
+        });
+        timer.signals().timeout().connect(&time_slot);
         timer.start(10);
 
         // Create main window
@@ -76,6 +78,12 @@ fn main() {
         let mut frame = Frame::new();
         unsafe { frame.set_layout(layout.into_raw() as *mut Layout); }
         unsafe { main_win.set_central_widget(frame.into_raw() as *mut Widget); }
+
+        main_win.show();
+
+        // Embed the browser
+        let browser =
+            c.create_browser(unsafe { mem::transmute(cef_widg.win_id()) }, cef_widg.width(), cef_widg.height());
 
         // Show main win
         main_win.show();
