@@ -53,6 +53,7 @@ impl Builder {
                 .clang_arg("--include-directory")
                 .clang_arg(self.cef_dir.to_str().unwrap())
                 .layout_tests(false)
+                .derive_default(true)
                 // TODO: waiting for fix of https://github.com/servo/rust-bindgen/issues/648
                 .opaque_type("tagMONITORINFOEXA")
                 .generate()
